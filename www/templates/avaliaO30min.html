@@ -1,0 +1,65 @@
+<ion-view title="Avaliação30min" id="page1">
+  <ion-nav-buttons side="right" class="has-header">
+    <button ng-click="showAvaliacaoModal()" class="button button-positive icon ion-android-add"></button>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+
+  <ion-refresher pulling-text="Puxe para atualizar" on-refresh="atualizar()"></ion-refresher>
+
+    <h3 id="avaliaO30min-heading1" style="color:#1749CC;">Avaliações</h3>
+    <div id="avaliaO30min-markdown1" style="text-align:center;" 
+      ng-show="{{listaAvaliacoes.length == 0 }}" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Seja o primeiro a avaliar!</p>
+    </div>
+
+    <ion-list id="avaliaO30min-list1" class="manual-list-fullwidth">
+      
+      <ion-item ng-repeat="avaliacao in listaAvaliacoes | orderBy : '-created_at' " class="item-thumbnail-left" id="avaliaO30min-list-item1">
+
+        <img src="img/star-{{avaliacao.estrelas}}.png">
+        <h2>{{avaliacao.nome}}</h2>
+        <p style="white-space:normal;">{{avaliacao.comentario}}</p>
+
+        <ion-option-button class="button-assertive" ng-click="deletarAvaliacao(avaliacao)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    
+    </ion-list>
+
+ <script id="modal-template.html" type="text/ng-template">
+  <div class="modal">
+
+    <!-- Modal header bar -->
+    <ion-header-bar class="bar-secondary">
+      <h1 class="title">Avaliar</h1>
+      <button class="button button-clear button-positive" 
+      ng-click="hideAvaliacaoModal()">Cancelar</button>
+    </ion-header-bar>
+
+    <!-- Modal content area -->
+    <ion-content>
+
+      <form ng-submit="postAvaliacao(avaliacao)">
+        <div class="list">
+          <label class="item item-input">
+            <input type="text" placeholder="Nome" ng-model="avaliacao.nome">
+          </label>
+          <label class="item item-input">
+            <input type="text" placeholder="Avaliação" ng-model="avaliacao.estrelas">
+          </label>
+          <label class="item item-input">
+            <input type="text" placeholder="Comentário" ng-model="avaliacao.comentario">
+          </label>
+        </div>
+        <div class="padding">
+          <button type="submit" class="button button-block button-balanced">Postar Avaliação</button>
+        </div>
+      </form>
+
+        </ion-content>
+      </div>
+    </script>
+
+  </ion-content>
+</ion-view>
