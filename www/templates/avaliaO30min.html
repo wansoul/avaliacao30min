@@ -1,4 +1,4 @@
-<ion-view title="Avaliação30min" id="page1">
+<ion-view title="Avaliação30min" id="page1" cache-view="false">
   <ion-nav-buttons side="right" class="has-header">
     <button ng-click="showAvaliacaoModal()" class="button button-positive icon ion-android-add"></button>
   </ion-nav-buttons>
@@ -6,7 +6,21 @@
 
   <ion-refresher pulling-text="Puxe para atualizar" on-refresh="atualizar()"></ion-refresher>
 
+    <div class="list">
+      <div class="item item-avatar item-button-right" >
+        <img src="{{user.image}}">
+        <h2>{{user.username}}</h2>
+        <p>{{user.email}}</p>
+
+        <button class="button" ng-click="logout()">
+          Sair
+          <!-- <i class="icon ion-log-out"></i> -->
+        </button>
+      </div>
+    </div>
+
     <h3 id="avaliaO30min-heading1" style="color:#1749CC;">Avaliações</h3>
+
     <div id="avaliaO30min-markdown1" style="text-align:center;" 
       ng-show="{{listaAvaliacoes.length == 0 }}" class="show-list-numbers-and-dots">
       <p style="color:#000000;">Seja o primeiro a avaliar!</p>
@@ -42,14 +56,24 @@
 
       <form ng-submit="postAvaliacao(avaliacao)">
         <div class="list">
-          <label class="item item-input">
-            <input type="text" placeholder="Nome" ng-model="avaliacao.nome">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Nome</span>
+            <input type="text" ng-model="avaliacao.nome" ng-init="avaliacao.nome = user.username">
           </label>
-          <label class="item item-input">
-            <input type="text" placeholder="Avaliação" ng-model="avaliacao.estrelas">
-          </label>
-          <label class="item item-input">
-            <input type="text" placeholder="Comentário" ng-model="avaliacao.comentario">
+          <div class="item item-input item-stacked-label">
+            <span class="input-label">Avaliação</span>
+            <input type="hidden" ng-model="avaliacao.estrelas">
+            <div>
+              <img ng-src="/img/star-{{avaliacao.estrelas >= 1 ? 'on' : 'off' }}.png" ng-click="setStars(avaliacao, 1)" class="star" />
+              <img ng-src="/img/star-{{avaliacao.estrelas >= 2 ? 'on' : 'off' }}.png" ng-click="setStars(avaliacao, 2)" class="star" />
+              <img ng-src="/img/star-{{avaliacao.estrelas >= 3 ? 'on' : 'off' }}.png" ng-click="setStars(avaliacao, 3)" class="star" />
+              <img ng-src="/img/star-{{avaliacao.estrelas >= 4 ? 'on' : 'off' }}.png" ng-click="setStars(avaliacao, 4)" class="star" />
+              <img ng-src="/img/star-{{avaliacao.estrelas >= 5 ? 'on' : 'off' }}.png" ng-click="setStars(avaliacao, 5)" class="star" />
+            </div>
+          </div>
+          <label class="item item-input item-stacked-label">
+          <span class="input-label">Comentário</span>
+            <input type="text" placeholder="Seu comentário" ng-model="avaliacao.comentario">
           </label>
         </div>
         <div class="padding">

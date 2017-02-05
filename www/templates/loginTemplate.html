@@ -1,0 +1,42 @@
+<ion-view title="Avaliação30min" cache-view="true">
+
+  <ion-content padding="true" class="has-header">
+
+    <ul class="list">
+      <li class="item item-toggle">
+         Ainda não tenho conta
+         <label class="toggle toggle-positive">
+           <input type="checkbox" ng-model="createAccount">
+           <div class="track">
+             <div class="handle"></div>
+           </div>
+         </label>
+      </li>
+    </ul>
+
+  <h3 style="color:#1749CC;">{{ createAccount ? 'Criar conta' : 'Login'}}</h3>
+
+    <form ng-submit="createAccount ? criarConta(usuario) : logar(usuario)">
+        <div class="list">
+          <label ng-show="createAccount" class="item item-input item-floating-label">
+            <span class="input-label">Nome de usuário</span>
+            <input type="text" placeholder="Username" ng-model="usuario.username">
+          </label>
+          <label class="item item-input item-floating-label">
+            <span class="input-label">E-mail</span>
+            <input type="text" placeholder="E-mail" ng-model="usuario.email">
+          </label>
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Senha</span>
+            <input type="password" placeholder="Senha" ng-model="usuario.senha">
+          </label>
+        </div>
+        <div >
+          <button type="submit" class="button button-block button-positive" ng-class="{'button-balanced' : createAccount}">
+          {{ createAccount ? 'Criar conta' : 'Logar'}}
+          </button>
+        </div>
+      </form>
+
+  </ion-content>
+</ion-view>
