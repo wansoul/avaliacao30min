@@ -2,11 +2,13 @@ angular.module('app.controllers', [])
   
 .controller('avaliaO30minCtrl', ['$scope', '$state', '$stateParams', 
 'AvaliacaoService', '$ionicLoading', '$ionicModal', '$ionicPopup',
-'$ionicAuth', '$ionicUser',
+'$ionicAuth', '$ionicUser', '$ionicPush',
 // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $state, $stateParams, AvaliacaoService, $ionicLoading, $ionicModal, $ionicPopup, $ionicAuth, $ionicUser) {
+function ($scope, $state, $stateParams, AvaliacaoService, 
+			$ionicLoading, $ionicModal, $ionicPopup, 
+			$ionicAuth, $ionicUser, $ionicPush) {
 	/* LOADING FUNCTION */
 	$scope.showLoading = function() {
 		$ionicLoading.show()
@@ -20,7 +22,18 @@ function ($scope, $state, $stateParams, AvaliacaoService, $ionicLoading, $ionicM
 
 	console.log("$ionicUser: ", $ionicUser);
 
+
+
+	/*#### HANDLING PUSH NOTIFICATION ######*/
+	$scope.$on('cloud:push:notification', function(event, data) {
+	  var msg = data.message;
+	  alert(msg.title + ': ' + msg.text);
+	});
+
+
 	$scope.logout = function(){
+		$ionicPush.unregister();
+
 		$ionicAuth.logout();
 		console.log("Logout");
 		$state.go('login');
@@ -128,8 +141,8 @@ function ($scope, $state, $stateParams, AvaliacaoService, $ionicLoading, $ionicM
 
 
 .controller('loginCtrl', ['$scope', '$state', '$stateParams', 
- '$ionicLoading', '$ionicPopup', '$ionicAuth', '$ionicUser',
-function ($scope, $state,  $stateParams, $ionicLoading, $ionicPopup, $ionicAuth, $ionicUser) {
+ '$ionicLoading', '$ionicPopup', '$ionicAuth', '$ionicUser', '$ionicPush',
+function ($scope, $state,  $stateParams, $ionicLoading, $ionicPopup, $ionicAuth, $ionicUser, $ionicPush) {
 
 	/* LOADING FUNCTION */
 	$scope.showLoading = function() {
@@ -167,6 +180,17 @@ function ($scope, $state,  $stateParams, $ionicLoading, $ionicPopup, $ionicAuth,
 		.then(function(){
 			$state.go('avaliaO30min');
 			$scope.hideLoading();
+
+
+
+			/*#### PUSH register ######*/
+			$ionicPush.register().then(function(t) {	
+			  return $ionicPush.saveToken(t);
+			}).then(function(t) {
+			  console.log('Token saved:', t.token);
+			});
+
+
 		});
 		
 

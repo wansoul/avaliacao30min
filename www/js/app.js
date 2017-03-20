@@ -22,6 +22,18 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.directives
   $ionicCloudProvider.init({
     "core": {
       "app_id": "f92a9334"
+    },
+    "push": {
+      "sender_id": "974681586526",
+      "pluginConfig": {
+        "android": {
+          "iconColor": "#343434"
+        }
+        /*"ios": {
+          "badge": true,
+          "sound": true
+        },*/
+      }
     }
   });
 })
